@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="login-dark">
     <form @submit.prevent="login">
       <h2>Iniciar Sesión</h2>
       <div>

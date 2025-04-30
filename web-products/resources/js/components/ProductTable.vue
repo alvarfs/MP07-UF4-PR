@@ -1,25 +1,25 @@
 <template>
-  <div>
+  <div class="productos-wrapper">
     <table>
       <thead>
         <tr>
-          <th @click="sort('name')">Nom <span v-if="sortKey==='name'">{{ sortDir==='asc'?'▲':'▼' }}</span></th>
-          <th @click="sort('price')">Preu <span v-if="sortKey==='price'">{{ sortDir==='asc'?'▲':'▼' }}</span></th>
-          <th v-if="userRole==='admin'">Accions</th>
+          <th @click="sort('name')">Nombre <span v-if="sortKey==='name'">{{ sortDir==='asc'?'▲':'▼' }}</span></th>
+          <th @click="sort('price')">Precio <span v-if="sortKey==='price'">{{ sortDir==='asc'?'▲':'▼' }}</span></th>
+          <th v-if="userRole==='admin'">Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="product in sortedProducts" :key="product.id">
           <td>{{ product.name }}</td>
           <td>{{ product.price }} €</td>
-          <td v-if="userRole==='admin'">
+          <td v-if="userRole==='admin'" class="table-actions">
             <button @click="emit('edit', product)">Editar</button>
-            <button @click="deleteProduct(product.id)">Eliminar</button>
+            <button @click="deleteProduct(product.id)" class="button-red">Eliminar</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <div v-if="error" style="color: #dc2626; margin-top: 1rem;">
+    <div v-if="error" class="mensaje-error">
       {{ error }}
     </div>
   </div>
@@ -65,13 +65,8 @@ const emit = defineEmits(['refresh', 'edit']);
 
 async function deleteProduct(id) {
   error.value = '';
-  if (!confirm('Segur que vols eliminar aquest producte?')) return;
-  // S'hauria de passar el token via prop o context
-  // Aquí només emetem l'event perquè ProductApp ho gestioni
-  // Això permet controlar el token i la recàrrega des del component pare
-  // També podríem passar apiToken via prop si cal
-  // $emit('delete', id)
-  // Però per simplicitat, cridem l'event refresh per recarregar després de l'eliminació
+
+
   try {
     await axios.delete(`http://127.0.0.1:8000/api/products/${id}`, {
       headers: {
@@ -81,18 +76,7 @@ async function deleteProduct(id) {
     // Notifiquem al pare que refresqui
     emit('refresh');
   } catch (e) {
-    // Muestra el mensaje real de la API si existe
-    if (e.response && e.response.data && e.response.data.message) {
-      error.value = e.response.data.message;
-    } else if (e.message) {
-      error.value = 'Error eliminant producte: ' + e.message;
-    } else if (e.response && e.response.status) {
-      error.value = 'Error eliminant producte. Codi: ' + e.response.status;
-    } else {
-      error.value = 'Error eliminant producte (desconegut)';
-    }
-    // También lo mostramos en consola para depuración
-    console.error('Error eliminant producte:', e);
+    console.error('Error eliminando producto:', e);
   }
 }
 

@@ -2,17 +2,17 @@
   <div>
     <form @submit.prevent="save">
       <button type="button" @click="$emit('close')">✖</button>
-      <h3>{{ props.editMode ? 'Editar Producte' : 'Afegir Producte' }}</h3>
+      <h3>{{ props.editMode ? 'Editar producto' : 'Añadir producto' }}</h3>
       <div class="mb-3">
-        <label>Nom</label>
+        <label>Nombre</label>
         <input v-model="name" required />
       </div>
       <div class="mb-3">
-        <label>Preu</label>
+        <label>Precio</label>
         <input v-model.number="price" type="number" step="0.01" required />
       </div>
       <div class="mb-3">
-        <label>Descripció</label>
+        <label>Descripción</label>
         <input v-model="description" required />
       </div>
       <div class="mb-3">
@@ -75,7 +75,7 @@ async function save() {
     if (e.response && e.response.data && e.response.data.message) {
       error.value = e.response.data.message;
     } else {
-      error.value = 'Error guardant producte';
+      error.value = 'Error guardando producto';
     }
   }
 }
