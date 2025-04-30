@@ -1,18 +1,23 @@
 <template>
 <div>
     <form @submit.prevent="login">
-
-      <h2>Inicia Sessió</h2>
-      <div style="margin-bottom: 1rem;">
-        <label>Email</label>
+      <h2>Iniciar Sesión</h2>
+      <div>
+        <label>Email: </label>
         <input v-model="email" type="email" required />
       </div>
-      <div style="margin-bottom: 1rem;">
-        <label>Contrasenya</label>
+      <div>
+        <label>Contraseña: </label>
         <input id="password" type="text" v-model="password" required />
       </div>
       <button type="submit">Entrar</button>
       <div v-if="error">{{ error }}</div>
+      <hr>
+      <div>
+        <strong>Credenciales de prueba:</strong>
+        <p>Email: admin@example.com</p>
+        <p>Contraseña: password</p>
+      </div>
     </form>
 </div>
 </template>
@@ -29,13 +34,13 @@ const error = ref('');
 async function login() {
   error.value = '';
   try {
-    const response = await axios.post('http://127.0.0.1:8002/api/login', {
+    const response = await axios.post('http://127.0.0.1:8000/api/login', {
       email: email.value,
       password: password.value,
     });
     emit('login-success', { token: response.data.token, role: response.data.role });
   } catch (e) {
-    error.value = 'Credencials incorrectes';
+    error.value = 'Credencials incorrectas';
   }
 }
 </script>

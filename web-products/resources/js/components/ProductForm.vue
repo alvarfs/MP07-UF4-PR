@@ -46,7 +46,7 @@ async function save() {
   error.value = '';
   try {
     if (props.editMode && props.initialProduct && props.initialProduct.id) {
-      await axios.put(`http://127.0.0.1:8002/api/products/${props.initialProduct.id}`, {
+      await axios.put(`http://127.0.0.1:8000/api/products/${props.initialProduct.id}`, {
         name: name.value,
         price: price.value,
         description: description.value,
@@ -57,7 +57,7 @@ async function save() {
         }
       });
     } else {
-      await axios.post('http://127.0.0.1:8002/api/products', {
+      await axios.post('http://127.0.0.1:8000/api/products', {
         name: name.value,
         price: price.value,
         description: description.value,

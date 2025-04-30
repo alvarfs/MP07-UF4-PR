@@ -62,7 +62,7 @@ function onLoginSuccess(response) {
 async function fetchProducts() {
   if (!apiToken.value) return;
   try {
-    const response = await axios.get('http://127.0.0.1:8002/api/products', {
+    const response = await axios.get('http://127.0.0.1:8000/api/products', {
       headers: {
         Authorization: `Bearer ${apiToken.value}`
       }

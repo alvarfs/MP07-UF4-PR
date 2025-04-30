@@ -13,18 +13,23 @@
           <td>{{ product.name }}</td>
           <td>{{ product.price }} €</td>
           <td v-if="userRole==='admin'">
-            <button @click="$emit('edit', product)">Editar</button>
+            <button @click="emit('edit', product)">Editar</button>
             <button @click="deleteProduct(product.id)">Eliminar</button>
           </td>
         </tr>
       </tbody>
     </table>
+    <div v-if="error" style="color: #dc2626; margin-top: 1rem;">
+      {{ error }}
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, watch } from 'vue';
 import axios from 'axios';
+
+const error = ref('');
 
 const props = defineProps({
   products: Array,
@@ -56,7 +61,10 @@ const sortedProducts = computed(() => {
   });
 });
 
+const emit = defineEmits(['refresh', 'edit']);
+
 async function deleteProduct(id) {
+  error.value = '';
   if (!confirm('Segur que vols eliminar aquest producte?')) return;
   // S'hauria de passar el token via prop o context
   // Aquí només emetem l'event perquè ProductApp ho gestioni
@@ -65,15 +73,26 @@ async function deleteProduct(id) {
   // $emit('delete', id)
   // Però per simplicitat, cridem l'event refresh per recarregar després de l'eliminació
   try {
-    await axios.delete(`http://127.0.0.1:8002/api/products/${id}`, {
+    await axios.delete(`http://127.0.0.1:8000/api/products/${id}`, {
       headers: {
         Authorization: `Bearer ${props.apiToken}`
       }
     });
     // Notifiquem al pare que refresqui
-    $emit('refresh');
+    emit('refresh');
   } catch (e) {
-    alert('Error eliminant producte');
+    // Muestra el mensaje real de la API si existe
+    if (e.response && e.response.data && e.response.data.message) {
+      error.value = e.response.data.message;
+    } else if (e.message) {
+      error.value = 'Error eliminant producte: ' + e.message;
+    } else if (e.response && e.response.status) {
+      error.value = 'Error eliminant producte. Codi: ' + e.response.status;
+    } else {
+      error.value = 'Error eliminant producte (desconegut)';
+    }
+    // También lo mostramos en consola para depuración
+    console.error('Error eliminant producte:', e);
   }
 }
 
