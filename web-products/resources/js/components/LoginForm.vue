@@ -8,7 +8,7 @@
       </div>
       <div>
         <label>Contraseña: </label>
-        <input id="password" type="text" v-model="password" required />
+        <input id="password" type="password" v-model="password" required />
       </div>
       <button type="submit">Entrar</button>
       <div v-if="error">{{ error }}</div>

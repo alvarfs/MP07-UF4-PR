@@ -139,6 +139,13 @@ async function fetchProducts() {
       }
     });
     products.value = response.data;
+    if (editingProduct.value) {
+      const stillExists = response.data.some(p => p.id === editingProduct.value.id);
+      if (!stillExists) {
+        editingProduct.value = null;
+        editError.value = '';
+      }
+    }
   } catch (e) {
     products.value = [];
   }
