@@ -15,7 +15,7 @@
       <div class="action-bar">
         <button v-if="userRole === 'admin'" class="btn-add" @click="showCreateForm = true; editingProduct = null">Añadir producto</button>
       </div>
-      <div class="action-bar">
+      <div class="action-bar" v-if="isAuthenticated">
         <button class="btn-logout" @click="logout">Cerrar sesión</button>
       </div>
 

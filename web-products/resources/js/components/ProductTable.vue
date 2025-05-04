@@ -1,5 +1,5 @@
 <template>
-  <div class="productos-wrapper">
+  <div v-if="products && products.length > 0" class="productos-wrapper">
     <table>
       <thead>
         <tr>
@@ -22,6 +22,9 @@
     <div v-if="error" class="mensaje-error">
       {{ error }}
     </div>
+  </div>
+  <div v-else-if="userRole && products && products.length === 0" class="productos-wrapper mensaje-vacio">
+    <p>No hay productos para mostrar.</p>
   </div>
 </template>
 
