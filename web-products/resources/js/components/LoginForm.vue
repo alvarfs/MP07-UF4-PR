@@ -18,6 +18,7 @@
         <p>Email: admin@example.com</p>
         <p>Contraseña: password</p>
       </div>
+      <button type="button" @click="$emit('show-register')" class="register-btn">¿No tienes cuenta? Regístrate</button>
     </form>
 </div>
 </template>
@@ -26,7 +27,7 @@
 import { ref } from 'vue';
 import axios from 'axios';
 
-const emit = defineEmits(['login-success']);
+const emit = defineEmits(['login-success', 'show-register']);
 const email = ref('');
 const password = ref('');
 const error = ref('');

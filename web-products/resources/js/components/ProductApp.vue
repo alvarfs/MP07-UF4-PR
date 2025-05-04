@@ -1,7 +1,8 @@
 <template>
   <div>
 
-    <login-form v-if="!isAuthenticated" @login-success="onLoginSuccess" />
+    <login-form v-if="!isAuthenticated && !showRegister" @login-success="onLoginSuccess" @show-register="showRegister = true" />
+    <register-form v-if="!isAuthenticated && showRegister" @register-success="showRegister = false" @show-login="showRegister = false" />
     <div v-else>
 
       <product-table
@@ -11,9 +12,12 @@
         @refresh="fetchProducts"
         @edit="onEditProduct"
       />
-      <div style="text-align:center; margin-bottom: 1.5rem;">
-  <button v-if="userRole === 'admin'" class="btn-add" @click="showCreateForm = true; editingProduct = null">Añadir producto</button>
-</div>
+      <div class="action-bar">
+        <button v-if="userRole === 'admin'" class="btn-add" @click="showCreateForm = true; editingProduct = null">Añadir producto</button>
+      </div>
+      <div class="action-bar">
+        <button class="btn-logout" @click="logout">Cerrar sesión</button>
+      </div>
 
       <div v-show="showCreateForm" class="crear-producto-form dark-card">
         <h3>Crear nuevo producto</h3>
@@ -65,13 +69,25 @@
 </template>
 
 <script setup>
+
+function logout() {
+  isAuthenticated.value = false;
+  apiToken.value = '';
+  userRole.value = '';
+  products.value = [];
+  editingProduct.value = null;
+  showCreateForm.value = false;
+}
+
 import { ref } from 'vue';
 import axios from 'axios';
 import LoginForm from './LoginForm.vue';
+import RegisterForm from './RegisterForm.vue';
 import ProductTable from './ProductTable.vue';
 import ProductForm from './ProductForm.vue';
 
 const isAuthenticated = ref(false);
+const showRegister = ref(false);
 const apiToken = ref('');
 const userRole = ref('');
 const products = ref([]);

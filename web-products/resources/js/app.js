@@ -15,4 +15,4 @@ app.component('product-form', ProductForm);
 
 app.mount('#app');
 
-console.log('Vue SPA muntada!');
+
