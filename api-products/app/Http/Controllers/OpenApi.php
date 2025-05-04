@@ -7,5 +7,4 @@
  *     description="Documentación de la API para gestión de productos con Laravel y Sanctum."
  * )
  */
-class OpenApiDoc {}
 

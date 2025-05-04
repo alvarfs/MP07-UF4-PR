@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
@@ -42,7 +43,7 @@ class ProductController extends Controller
      *     path="/api/products",
      *     tags={"Productos"},
      *     summary="Listar productos",
-     *     security={{"sanctum":{}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Response(response=200, description="Listado de productos")
      * )
      */
@@ -57,7 +58,7 @@ class ProductController extends Controller
      *     path="/api/products",
      *     tags={"Productos"},
      *     summary="Crear producto (solo admin)",
-     *     security={{"sanctum":{}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -82,7 +83,7 @@ class ProductController extends Controller
      *     path="/api/products/{id}",
      *     tags={"Productos"},
      *     summary="Mostrar producto",
-     *     security={{"sanctum":{}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\Response(response=200, description="Producto encontrado")
      * )
@@ -97,7 +98,7 @@ class ProductController extends Controller
      *     path="/api/products/{id}",
      *     tags={"Productos"},
      *     summary="Actualizar producto (solo admin)",
-     *     security={{"sanctum":{}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\RequestBody(
      *         required=true,
@@ -122,7 +123,7 @@ class ProductController extends Controller
      *     path="/api/products/{id}",
      *     tags={"Productos"},
      *     summary="Eliminar producto (solo admin)",
-     *     security={{"sanctum":{}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\Response(response=204, description="Producto eliminado")
      * )
